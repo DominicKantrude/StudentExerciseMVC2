@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using StudentExerciseMVC2.Models.ViewModels;
 using StudentExercisesMVC2.Models;
 using StudentExercisesMVC2.Models.ViewModels;
 using StudentExercisesMVC2.Repositories;
@@ -54,6 +55,15 @@ namespace StudentExerciseMVC2.Controllers
         {
             ExerciseRepository.CreateExercise(exerciseModel);
             return RedirectToAction(nameof(Index));
+        }
+
+       public ActionResult ViewCompleteCountForExercises()
+        {
+            List<CompletedCountForExerciseModel> completeCountForExercises = ExerciseRepository.GetCompletedCountPerExercise();
+            return View(completeCountForExercises);
+
+            //need view for this. view will be the viewcoplete thing. pass the completedcountforexercise model
+
         }
 
         // GET: Student/Edit/5

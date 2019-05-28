@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using StudentExerciseMVC2.Models.ViewModels;
 using StudentExercisesMVC2.Models;
 
 namespace StudentExercisesMVC2.Repositories
@@ -108,6 +109,37 @@ namespace StudentExercisesMVC2.Repositories
                     cmd.Parameters.Add(new SqlParameter("@exercise", exerciseId));
 
                     cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public static List<CompletedCountForExerciseModel> GetCompletedCountPerExercise()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+
+                    cmd.CommandText = @"SELECT e.Name, SUM(CASE WHEN a.IsCompleted = 1 THEN 1 ELSE 0 END) AS Assigned
+                               FROM AssignedExercises a
+                               Left Join Exercise e ON  e.Id = a.ExerciseId
+                               Group BY a.ExerciseId, e.Name";
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<CompletedCountForExerciseModel> completeCountForExercises = new List<CompletedCountForExerciseModel>();
+                    while (reader.Read())
+                    {
+                        CompletedCountForExerciseModel completeCountForExercise = new CompletedCountForExerciseModel
+                        {
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Assigned = reader.GetInt32(reader.GetOrdinal("Assigned"))
+                        };
+                        completeCountForExercises.Add(completeCountForExercise);
+                    }
+                    reader.Close();
+                    return completeCountForExercises;
                 }
             }
         }

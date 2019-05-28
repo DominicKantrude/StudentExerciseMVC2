@@ -45,3 +45,4 @@ C:\Users\domin\workspace\StudentExerciseMVC2\StudentExerciseMVC2\obj\Debug\netco
 C:\Users\domin\workspace\StudentExerciseMVC2\StudentExerciseMVC2\obj\Debug\netcoreapp2.2\StudentExerciseMVC2.dll
 C:\Users\domin\workspace\StudentExerciseMVC2\StudentExerciseMVC2\obj\Debug\netcoreapp2.2\StudentExerciseMVC2.pdb
 C:\Users\domin\workspace\StudentExerciseMVC2\StudentExerciseMVC2\obj\Debug\netcoreapp2.2\StudentExerciseMVC2.csproj.CopyComplete
+C:\Users\domin\workspace\StudentExerciseMVC2\StudentExerciseMVC2\obj\Debug\netcoreapp2.2\Razor\Views\Exercise\ViewCompleteCountForExercises.g.cshtml.cs
