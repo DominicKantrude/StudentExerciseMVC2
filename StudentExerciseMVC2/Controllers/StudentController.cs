@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using StudentExercisesMVC2.Repositories;
 using StudentExercisesMVC2.Models.ViewModels;
 
-
 namespace StudentExercisesMVC.Controllers
 {
     public class StudentController : Controller
@@ -65,7 +64,6 @@ namespace StudentExercisesMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Students/Edit/5
         public ActionResult Edit(int id)
         {
             var model = new StudentEditViewModel(id);
@@ -77,16 +75,23 @@ namespace StudentExercisesMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, StudentEditViewModel model)
         {
-            try
-            {
+          
+                // Update the student record in the database
                 model.Student.Id = id;
                 StudentRepository.UpdateStudent(model.Student);
+
+                // Clear out all assigned exercises
+                ExerciseRepository.ClearAssignedExercises(model.Student.Id);
+
+                // Assign exercises selected in the form
+                if (model.SelectedExercises.Count > 0)
+                {
+                    model.SelectedExercises.ForEach(i =>
+                        ExerciseRepository.AssignToStudent(i, model.Student.Id));
+                }
+
                 return RedirectToAction(nameof(Index));
-            }
-            catch (Exception)
-            {
-                return View(model);
-            }
+            
         }
 
         // GET: Students/Delete/5
